@@ -17,15 +17,15 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid d-flex flex-wrap">
             <div class="navbar-header">
-                <a href=".." class="navbar-brand">Classificados</a>
+                <a href="./" class="navbar-brand">Classificados</a>
             </div>
             <ul class="nav">
                 <?php if(isset($_SESSION['cLogin']) && !empty($_SESSION['cLogin'])): ?>
-                    <li class="nav-item"><a href="meus-anuncios.php" class="nav-link link-light px-2">Meus Anúncios</a></li>
-                    <li class="nav-item"><a href="sair.php" class="nav-link link-light px-2">Sair</a></li>
+                    <li class="nav-item"><a href="./meus-anuncios.php" class="nav-link link-light px-2">Meus Anúncios</a></li>
+                    <li class="nav-item"><a href="./sair.php" class="nav-link link-light px-2">Sair</a></li>
                 <?php else: ?>
-                    <li class="nav-item"><a href="cadastre-se.php" class="nav-link link-light px-2">Cadastre-se</a></li>
-                    <li class="nav-item"><a href="login.php" class="nav-link link-light px-2">Login</a></li>
+                    <li class="nav-item"><a href="./cadastre-se.php" class="nav-link link-light px-2">Cadastre-se</a></li>
+                    <li class="nav-item"><a href="./login.php" class="nav-link link-light px-2">Login</a></li>
                 <?php endif; ?>
             </ul>
         </div>
