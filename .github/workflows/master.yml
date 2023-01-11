@@ -17,9 +17,6 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      - name: 📂 Deploy code
-        run: lftp -c "set ftp:ssl-allow no; open -u ${{ secrets.ftp_user }},${{ secrets.ftp_password }} ftp://${{ secrets.ftp_host }}; mirror -R --ignore-time --parallel=10 -I 'node_modules' -I '.git' -I '.github' local/path/to/folder prod/classificados/"
-
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
