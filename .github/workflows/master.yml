@@ -2,9 +2,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 name: 🚀 Deploy website to FTP Server Hostigator
 jobs:
   web-deploy:
