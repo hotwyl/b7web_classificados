@@ -6,69 +6,80 @@ if (empty($_SESSION['cLogin'])){
     <?php
     exit;
 }
+
+require './classes/anuncios.class.php';
+$a = new Anuncios();
+
+if(isset($_POST['titulo']) && !empty($_POST['titulo'])){
+
+    $titulo = addslashes($_POST['titulo']);
+    $categotia = addslashes($_POST['categoria']);
+    $valor = addslashes($_POST['valor']);
+    $descricao = addslashes($_POST['descricao']);
+    $estado = addslashes($_POST['estado']);
+
+    $a->addAnuncio($titulo, $categotia, $valor, $descricao, $estado);
+
+    ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Parabéns!</strong> Anuncio Adicionado com sucesso.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php
+}
+
 ?>
 
 <main>
     <div class="container">
         <h1>Meus Anúncios - Adicionar Anúncios</h1>
-        <?php
-        require './classes/usuarios.class.php';
-        $u = new Usuarios();
-        if(isset($_POST['nome'])&& !empty($_POST['nome'])){
-            $nome = addslashes($_POST['nome']);
-            $email = addslashes($_POST['email']);
-            $senha = $_POST['senha'];
-            $telefone = addslashes($_POST['telefone']);
 
-            if(!empty($nome)&& !empty($email) && !empty($senha)){
-                if($u->cadastrar($nome, $email, $senha, $telefone)){
-                    ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Parabéns!</strong> Cadastrado com sucesso. <a href="./login.php" class="alert-link">Faça o login agora.</a>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php
-                } else {
-                    ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Este usuário já existe!</strong> <a href="./login.php" class="alert-link">Faça o login agora.</a>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php
-                }
-            } else{
-                ?>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Preencha todos os campos!</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <?php
-            }
-
-        }
-        ?>
         <form method="POST" enctype="multipart/form-data" autocomplete="off">
 
             <div class="input-group mb-3">
-                <span class="input-group-text" id="usernamen">Nome: </span>
-                <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome" aria-label="Nome"  aria-describedby="usernamen" required>
+                <span class="input-group-text" id="cat">Categoria: </span>
+                <select class="form-select" name="categoria" id="categoria" aria-label="cat" required>
+                    <option selected>Selecione uma opção</option>
+                    <?php
+                    require './classes/categorias.class.php';
+                    $c = new Categorias();
+                    $cats = $c->getLista();
+
+                    foreach ($cats as $cat):
+                     ?>
+                        <option value="<?php echo $cat['id']; ?>"><?php echo $cat['nome']; ?></option>
+                    <?php
+                        endforeach;
+                    ?>
+                </select>
             </div>
 
             <div class="input-group mb-3">
-                <span class="input-group-text" id="mail">E-mail: </span>
-                <input type="email" class="form-control" name="email" id="email" placeholder="Email" aria-label="Email"  aria-describedby="mail" required>
+                <span class="input-group-text" id="title">Titulo: </span>
+                <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Titulo" aria-label="title"  aria-describedby="title" required>
             </div>
 
             <div class="input-group mb-3">
-                <span class="input-group-text" id="password">Senha: </span>
-                <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" aria-label="Senha"  aria-describedby="password" required>
+                <span class="input-group-text" id="vlr">Valor: </span>
+                <input type="number" step="0.01" class="form-control" name="valor" id="valor" placeholder="Valor" aria-label="valor"  aria-describedby="vlr" required>
             </div>
 
             <div class="input-group mb-3">
-                <span class="input-group-text" id="fone">Telefone: </span>
-                <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="Telefone" aria-label="Telefone"  aria-describedby="fone" required>
+                <span class="input-group-text" id="descrpt">Descrição: </span>
+                <textarea class="form-control" name="descricao" id="descricao" aria-label="descrpt"></textarea>
             </div>
-            <input type="submit" class="btn btn-outline-secondary" value="Cadastrar" />
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="state">Estado de Conservação: </span>
+                <select class="form-select" name="estado" id="estado" aria-label="state" required>
+                    <option selected>Selecione uma opção</option>
+                    <option value="0">Ruim</option>
+                    <option value="1">Bom</option>
+                    <option value="2">Ótimo</option>
+                </select>
+            </div>
+
+            <input type="submit" class="btn btn-outline-secondary" value="Adicionar" />
         </form>
     </div>
 </main>
