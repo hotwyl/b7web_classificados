@@ -1,8 +1,8 @@
 <?php require './pages/header.php'; ?>
 
-    <main>
-        <div class="container">
-            <h1>Login</h1>
+    <main class="text-center">
+        <div class="container form-signin w-100 m-auto">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
             <?php
             require './classes/usuarios.class.php';
             $u = new Usuarios();

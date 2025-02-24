@@ -19,17 +19,61 @@ class Anuncios {
         return $array;
     }
 
-    public function addAnuncio($titulo, $categotia, $valor, $descricao, $estado){
+    public function getAnuncio($id) {
+        global $pdo;
+
+        $array = array();
+        $sql = $pdo->prepare("SELECT * FROM anuncios WHERE id = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            $array = $sql->fetch();
+        }
+
+        return $array;
+    }
+
+    public function addAnuncio($titulo, $categotia, $valor, $descricao, $estado) {
         global $pdo;
 
         $sql = $pdo->prepare("INSERT INTO anuncios SET titulo = :titulo, id_categoria = :categoria, id_usuario = :id_usuario, descricao = :descricao, valor = :valor, estado = :estado");
 
         $sql->bindValue(":titulo", $titulo);
-        $sql->bindValue(":categoria", intval($categotia));
-        $sql->bindValue(":id_usuario", intval($_SESSION['cLogin']));
+        $sql->bindValue(":categoria", $categotia);
+        $sql->bindValue(":id_usuario", $_SESSION['cLogin']);
         $sql->bindValue(":descricao", $descricao);
-        $sql->bindValue(":valor", floatval($valor));
-        $sql->bindValue(":estado", intval($estado));
+        $sql->bindValue(":valor", $valor);
+        $sql->bindValue(":estado", $estado);
+        $sql->execute();
+
+
+    }
+
+    public function editAnuncio($titulo, $categotia, $valor, $descricao, $estado, $fotos, $id) {
+        global $pdo;
+
+    $sql = $pdo->prepare("UPDATE anuncios SET titulo = :titulo, id_categoria = :categoria, id_usuario = :id_usuario, descricao = :descricao, valor = :valor, estado = :estado WHERE id = :id");
+        $sql->bindValue(":titulo", $titulo);
+        $sql->bindValue(":categoria", $categotia);
+        $sql->bindValue(":id_usuario", $_SESSION['cLogin']);
+        $sql->bindValue(":descricao", $descricao);
+        $sql->bindValue(":valor", $valor);
+        $sql->bindValue(":estado", $estado);
+        $sql->bindValue(":id", $id);
         $sql->execute();
     }
+
+    public function excluirAnuncio($id) {
+        global $pdo;
+
+        $sql = $pdo->prepare("DELETE FROM anuncios_imagens WHERE id_anuncio = :id_anuncio");
+        $sql->bindValue(":id_anuncio", $id);
+        $sql->execute();
+
+        $sql = $pdo->prepare("DELETE FROM anuncios WHERE id = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+    }
+
 }
